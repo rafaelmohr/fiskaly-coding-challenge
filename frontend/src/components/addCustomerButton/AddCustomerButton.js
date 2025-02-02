@@ -28,6 +28,8 @@ export default function AddCustomerButton({fetchCustomers}) {
     function submitForm(event) {
         event.preventDefault();
 
+        if (!firstNameValid || !lastNameValid || !mailValid) return;
+
         const url = `${config.BACKEND_URL}:${config.BACKEND_PORT}/customer`;
         axios.post(url, {
             firstName: firstName,
@@ -74,7 +76,7 @@ export default function AddCustomerButton({fetchCustomers}) {
                                 <span className="error-display">Invalid E-Mail address</span>
                             }
                         </div>
-                        <button type="submit">Submit</button>
+                        <button disabled={!firstNameValid || !lastNameValid || !mailValid} type="submit">Submit</button>
                     </form>
                 </Modal>
             )}
