@@ -36,6 +36,11 @@ export default function AddCustomerButton({fetchCustomers}) {
         }).catch(error => console.error(error))
             .finally(() => {
                 setModalOpen(false);
+                // clean inputs
+                setFirstName('');
+                setLastName('');
+                setMail('');
+
                 fetchCustomers();
             });
     }
