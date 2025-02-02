@@ -10,8 +10,9 @@ const v1: Pool = new Pool({
   }
 );
 
-export default function queryDb(query: string):Promise<any[]> {
-  return v1.query(query)
+// I chnaged this function to use postgres prepared statements
+export default function queryDb(query: string, values: Array<string>):Promise<any[]> {
+  return v1.query(query, values)
     .then((res) => {
       return res.rows;
     })

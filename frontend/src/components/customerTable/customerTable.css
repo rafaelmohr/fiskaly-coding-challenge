@@ -1,0 +1,12 @@
+td:not(:last-child) {
+    padding-inline: 15px;
+    padding-block: 10px;
+}
+
+tr:hover{
+    background-color: #4b4b4b;
+}
+
+td.tss-ids {
+    font-size: 80%;
+}
