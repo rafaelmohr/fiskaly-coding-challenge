@@ -15,7 +15,7 @@ function App() {
     const [customers, setCustomers] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    async function fetchCustomers(customer_id) {
+    async function fetchCustomers() {
         setLoading(true);
         const url = `${config.BACKEND_URL}:${config.BACKEND_PORT}/customers`;
         axios.get(url)
