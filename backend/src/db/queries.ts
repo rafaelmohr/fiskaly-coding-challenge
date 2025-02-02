@@ -1,15 +1,5 @@
 import queryDb from './postgres';
 
-// TODO: change to use postgres prepared statement
-export function getCustomer(customer_id: string): Promise<string[]> {
-  const queryString: string = `
-  SELECT customer_id, first_name, last_name, mail
-  FROM customers
-  WHERE customer_id = '${customer_id}'
-  `; // note: basic string formatting is NOT save against SQL-injections
-  return queryDb(queryString, []);
-}
-
 // NOTE: the typescript typing is not correct here, or in most other parts of the app, due to time reasons
 export function getAllCustomers(): Promise<Array<Array<string>>> {
   // aggregate by tss ids directly in database

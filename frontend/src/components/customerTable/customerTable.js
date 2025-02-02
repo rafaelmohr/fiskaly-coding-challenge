@@ -10,7 +10,6 @@ import './customerTable.css';
 * would look better and also work better probably
 * but the purpose of this is probably not to show that I can use a library, so I did it from scratch
 */
-
 export default function CustomerTable({customers, fetchCustomers}) {
 
     const [filter, setFilter] = useState('');
