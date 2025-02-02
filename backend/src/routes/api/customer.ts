@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply, FastifyInstance } from 'fastify';
-import {getCustomer, insertNewCustomer} from '../../db/queries';
+import {insertNewCustomer} from '../../db/queries';
 import {newUUID} from "../../helper/UUIDGenerator";
 
 

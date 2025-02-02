@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply, FastifyInstance } from 'fastify';
-import {getAllCustomers, getCustomer} from '../../db/queries';
+import {getAllCustomers} from '../../db/queries';
 
 
 export default async function allCustomers(fastify: FastifyInstance){
