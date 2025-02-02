@@ -51,3 +51,12 @@ export function insertTssIdToCustomer(customerId: string, newTssId: string): Pro
 
   return queryDb(queryString, [newTssId, customerId]);
 }
+
+export function insertNewCustomer(customerId: string, firstName: string, lastName: string, mail: string) {
+  const queryString = `
+  INSERT INTO customers (customer_id, first_name, last_name, mail)
+  VALUES ($1, $2, $3, $4)
+  `;
+
+  return queryDb(queryString, [customerId, firstName, lastName, mail]);
+}

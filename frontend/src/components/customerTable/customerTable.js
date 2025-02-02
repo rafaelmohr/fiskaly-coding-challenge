@@ -1,6 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import config from '../../config';
-import axios from 'axios';
 import Modal from "../modal/modal";
 import TssInput from "./tssInput/tssInput";
 import './customerTable.css';
@@ -13,31 +11,12 @@ import './customerTable.css';
 * but the purpose of this is probably not to show that I can use a library, so I did it from scratch
 */
 
-export default function CustomerTable(props) {
+export default function CustomerTable({customers, fetchCustomers}) {
 
-    const [customers, setCustomers] = useState(null);
     const [filter, setFilter] = useState('');
     const [showFilter, setShowFilter] = useState(false);
-    const [filteredCustomers, setFilteredCustomers] = useState(null);
-    const [uniqueLastNames, setUniqueLastNames] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    async function fetchCustomers(customer_id) {
-        setLoading(true);
-        const url = `${config.BACKEND_URL}:${config.BACKEND_PORT}/customers`;
-        axios.get(url)
-            .then((res) => {
-                setCustomers(res.data);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    }
-
-    // load customers once on component mount
-    useEffect(() => {
-        fetchCustomers();
-    }, []);
+    const [filteredCustomers, setFilteredCustomers] = useState([]);
+    const [uniqueLastNames, setUniqueLastNames] = useState([]);
 
     // set unique last names every time customers changes
     useEffect(() => {
@@ -57,12 +36,8 @@ export default function CustomerTable(props) {
         }
     }, [customers, filter])
 
-
-    if (loading) return <p className="text-gray-500">Loading customers...</p>;
-
     return (
         <div>
-            <h2>Customer List</h2>
             {filter && (
                 <h5>Filtering by last name: {filter} <button onClick={() => setFilter('')}>Remove filter</button></h5>
             )}
@@ -86,7 +61,7 @@ export default function CustomerTable(props) {
                         <td>{customer.mail}</td>
                         <td className="tss-ids">
                             <ul>
-                                {customer.tss_ids.map((tssId, index) => (
+                                {customer.tss_ids.map((tssId, index) => ( !!tssId &&
                                     <li key={index}>{tssId}</li>
                                 ))}
                                 <li key="input">
