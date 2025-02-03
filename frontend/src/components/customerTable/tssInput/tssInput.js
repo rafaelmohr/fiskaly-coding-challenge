@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import config from "../../../config";
 import axios from 'axios';
+import {validateUUID} from "../../../helper/Validators";
 
 export default function TssInput({customerId, fetchCustomers}) {
 
@@ -10,8 +11,7 @@ export default function TssInput({customerId, fetchCustomers}) {
     useEffect(() => {
         // check if input is valid UUID
         // only UUIDs will be accepted by the DB later, since that is the specified datatype there
-        setValidInput(/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value));
-
+        setValidInput(validateUUID(value));
     }, [value]);
 
     function formSubmit(e) {
@@ -29,6 +29,8 @@ export default function TssInput({customerId, fetchCustomers}) {
                 console.log(error)
             })
             .finally((res) => {
+                setValue('');
+
                 // NOTE: there definetely is some error handling missing here, and also generally
 
                 // call fetchCustomers of parent table

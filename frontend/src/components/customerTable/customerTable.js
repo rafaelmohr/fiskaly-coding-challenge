@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useMemo} from 'react';
 import Modal from "../modal/modal";
 import TssInput from "./tssInput/tssInput";
 import './customerTable.css';
@@ -14,31 +14,26 @@ export default function CustomerTable({customers, fetchCustomers}) {
 
     const [filter, setFilter] = useState('');
     const [showFilter, setShowFilter] = useState(false);
-    const [filteredCustomers, setFilteredCustomers] = useState([]);
-    const [uniqueLastNames, setUniqueLastNames] = useState([]);
-
-    // set unique last names every time customers changes
-    useEffect(() => {
-        if (customers) {
-            const uniqueLastNames = new Set(customers.map(customer => customer.last_name));
-            setUniqueLastNames(Array.from(uniqueLastNames));
-        }
-    }, [customers])
 
     // filter customers on change of filter state variable
-    useEffect(() => {
-        if (customers) {
-            setFilteredCustomers(customers.filter(
-                customer => customer.last_name.toLowerCase() === filter.toLowerCase()
-                    || filter === '' || filter === null
-            ));
-        }
+    const filteredCustomers = useMemo(() => {
+        return customers.filter(
+            customer => customer.last_name.toLowerCase() === filter.toLowerCase()
+                || filter === '' || filter === null
+        );
     }, [customers, filter])
+
+    const uniqueLastNames = useMemo(() => {
+        const uniqueLastNames = new Set(customers.map(customer => customer.last_name));
+        return Array.from(uniqueLastNames);
+    }, [customers])
 
     return (
         <div>
             {filter && (
-                <h5>Filtering by last name: {filter} <button onClick={() => setFilter('')}>Remove filter</button></h5>
+                <h5>Filtering by last name: {filter}
+                    <button onClick={() => setFilter('')}>Remove filter</button>
+                </h5>
             )}
             <table>
                 <thead>
@@ -60,11 +55,11 @@ export default function CustomerTable({customers, fetchCustomers}) {
                         <td>{customer.mail}</td>
                         <td className="tss-ids">
                             <ul>
-                                {customer.tss_ids.map((tssId, index) => ( !!tssId &&
+                                {customer.tss_ids.map((tssId, index) => (!!tssId &&
                                     <li key={index}>{tssId}</li>
                                 ))}
                                 <li key="input">
-                                    <TssInput customerId={customer.customer_id} fetchCustomers={fetchCustomers} />
+                                    <TssInput customerId={customer.customer_id} fetchCustomers={fetchCustomers}/>
                                 </li>
                             </ul>
                         </td>

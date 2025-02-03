@@ -12,18 +12,13 @@ import React, {useState, useEffect} from 'react';
  */
 function App() {
 
-    const [customers, setCustomers] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [customers, setCustomers] = useState([]);
 
     async function fetchCustomers() {
-        setLoading(true);
         const url = `${config.BACKEND_URL}:${config.BACKEND_PORT}/customers`;
         axios.get(url)
             .then((res) => {
                 setCustomers(res.data);
-            })
-            .finally(() => {
-                setLoading(false);
             });
     }
 
@@ -43,13 +38,8 @@ function App() {
                     <AddCustomerButton fetchCustomers={fetchCustomers} />
                 </div>
 
-                {loading ? (
-                        <p className="text-gray-500">Loading customers...</p>
-                    )
-                    :
-                    <CustomerTable customers={customers} fetchCustomers={fetchCustomers}/>
+                <CustomerTable customers={customers} fetchCustomers={fetchCustomers}/>
 
-                }
             </main>
         </div>
     );
